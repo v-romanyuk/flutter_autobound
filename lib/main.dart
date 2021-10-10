@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +8,6 @@ import './screens/auth/login_screen.dart';
 
 void main() {
   // debugPaintSizeEnabled = true;
-
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp
@@ -26,10 +26,12 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
+      debugShowCheckedModeBanner: false,
+
       theme: CupertinoThemeData(
           primaryColor: AppColors.primary,
           primaryContrastingColor: AppColors.white,
-          scaffoldBackgroundColor: AppColors.grey,
+          scaffoldBackgroundColor: AppColors.greyLight,
           barBackgroundColor: AppColors.white,
         textTheme: const CupertinoTextThemeData().copyWith(
           textStyle: const TextStyle(
