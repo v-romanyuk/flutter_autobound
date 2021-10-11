@@ -3,6 +3,7 @@ import 'package:Autobound/styles/colors.dart';
 import 'package:Autobound/widgets/app_form_item.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _scrollController = ScrollController();
   final _loginFormRef = GlobalKey<FormState>();
   final _loginForm = LoginForm(email: '', password: '');
 
@@ -21,17 +23,30 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailFieldKey = GlobalKey<FormFieldState>();
   final _passwordFieldKey = GlobalKey<FormFieldState>();
 
+  void _animateToLoginButton () async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    _scrollController.animateTo(
+      100,
+      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 200),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
-    _emailFocusNode.addListener(() {
+    _emailFocusNode.addListener(() async {
       if (!_emailFocusNode.hasFocus) {
         _emailFieldKey.currentState?.validate();
+      } else {
+        _animateToLoginButton();
       }
     });
-    _passwordFocusNode.addListener(() {
+    _passwordFocusNode.addListener(() async {
       if (!_passwordFocusNode.hasFocus) {
         _passwordFieldKey.currentState?.validate();
+      } else {
+        _animateToLoginButton();
       }
     });
   }
@@ -54,20 +69,18 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       child: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+        controller: _scrollController,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 30),
+            padding: const EdgeInsets.only(left: 14, right: 15, top: 90, bottom: 50),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 60),
-                  child: Image.asset(
-                    'lib/assets/images/logo.png',
-                    width: 180,
-                    height: 40,
-                  ),
+                Image.asset(
+                  'lib/assets/images/logo.png',
+                  width: 180,
+                  height: 40,
                 ),
                 Column(children: [
                   const Padding(
@@ -92,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           key: _emailFieldKey,
                           focusNode: _emailFocusNode,
                           keyboardType: TextInputType.emailAddress,
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                           placeholder: 'Enter Your Email',
                           textInputAction: TextInputAction.next,
                           validator: (value) {
@@ -115,7 +128,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           placeholder: 'Enter Your Password',
                           keyboardType: TextInputType.visiblePassword,
                           textInputAction: TextInputAction.go,
-                          validator: (value) => value!.isEmpty ? 'Password is required' : null,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Password is required';
+                            } else if (value.length <= 8) {
+                              return 'Password is too short';
+                            } else {
+                              return null;
+                            }
+                          },
                           onFieldSubmitted: (_) => _login(),
                           onSaved: (value) {
                             _loginForm.password = value ?? '';
