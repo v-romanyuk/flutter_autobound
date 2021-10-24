@@ -11,6 +11,7 @@ class AppFormItem extends FormField<String> {
     FocusNode? focusNode,
     TextInputType? keyboardType,
     TextInputAction? textInputAction,
+    bool obscureText = false,
     EdgeInsetsGeometry? padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
     bool autofocus = false,
     bool readOnly = false,
@@ -52,6 +53,7 @@ class AppFormItem extends FormField<String> {
                       focusNode: focusNode,
                       keyboardType: keyboardType,
                       textInputAction: textInputAction,
+                      obscureText: obscureText,
                       clearButtonMode: OverlayVisibilityMode.editing,
                       decoration: BoxDecoration(
                           border: Border.all(color: field.errorText != null ? AppColors.danger : AppColors.border),

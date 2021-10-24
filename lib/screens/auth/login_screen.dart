@@ -1,9 +1,14 @@
-import 'package:Autobound/models/index.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import 'package:Autobound/models/models.dart';
+import 'package:Autobound/services/services.dart';
 import 'package:Autobound/styles/colors.dart';
 import 'package:Autobound/widgets/app_form_item.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+
+import 'package:Autobound/screens/suggested_campaigns/suggested_campaigns_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -14,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _loading = false;
   final _scrollController = ScrollController();
   final _loginFormRef = GlobalKey<FormState>();
   final _loginForm = LoginForm(email: '', password: '');
@@ -23,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailFieldKey = GlobalKey<FormFieldState>();
   final _passwordFieldKey = GlobalKey<FormFieldState>();
 
-  void _animateToLoginButton () async {
+  void _animateToLoginButton() async {
     await Future.delayed(const Duration(milliseconds: 100));
     _scrollController.animateTo(
       100,
@@ -58,10 +64,24 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _login() {
+  void _login() async {
     final isValid = _loginFormRef.currentState?.validate();
+
     if (isValid == true) {
       _loginFormRef.currentState?.save();
+
+      try {
+        setState(() {
+          _loading = true;
+        });
+        final a = await http.post('auth/login', body: _loginForm.toJson());
+        Navigator.of(context).pushReplacementNamed(SuggestedCampaignsScreen.routeName);
+      }
+      finally {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
 
@@ -103,7 +123,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         AppFormItem(
                           key: _emailFieldKey,
+                          enabled: !_loading,
                           focusNode: _emailFocusNode,
+                          initialValue: 'dev@dev.dev',
                           keyboardType: TextInputType.emailAddress,
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                           placeholder: 'Enter Your Email',
@@ -124,9 +146,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         AppFormItem(
                           key: _passwordFieldKey,
+                          enabled: !_loading,
                           focusNode: _passwordFocusNode,
+                          initialValue: 'dev@dev.dev',
                           placeholder: 'Enter Your Password',
                           keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
                           textInputAction: TextInputAction.go,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -141,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onSaved: (value) {
                             _loginForm.password = value ?? '';
                           },
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -149,13 +174,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     height: 36,
                     child: CupertinoButton.filled(
-                        padding: EdgeInsets.zero,
-                        borderRadius: BorderRadius.circular(5),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                        ),
-                        onPressed: _login),
+                      disabledColor: AppColors.primary,
+                      padding: EdgeInsets.zero,
+                      borderRadius: BorderRadius.circular(5),
+                      child: _loading
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Text(
+                              'Login',
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                            ),
+                      onPressed: _loading ? null : _login,
+                    ),
                   ),
                 ]),
                 Row(
@@ -178,9 +214,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(fontSize: 16),
                           ),
                           onPressed: () => {}),
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),

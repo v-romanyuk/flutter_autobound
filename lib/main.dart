@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import './styles/colors.dart';
 
 import './screens/auth/login_screen.dart';
+import './screens/suggested_campaigns/suggested_campaigns_screen.dart';
 
 void main() {
   // debugPaintSizeEnabled = true;
@@ -27,7 +28,6 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoApp(
       debugShowCheckedModeBanner: false,
-
       theme: CupertinoThemeData(
           primaryColor: AppColors.primary,
           primaryContrastingColor: AppColors.white,
@@ -42,6 +42,8 @@ class Main extends StatelessWidget {
       ),
       routes: {
         '/': (ctx) => const LoginScreen(),
+        LoginScreen.routeName: (ctx) => const LoginScreen(),
+        SuggestedCampaignsScreen.routeName: (ctx) => const SuggestedCampaignsScreen(),
       },
     );
   }
