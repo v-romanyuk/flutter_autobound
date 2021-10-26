@@ -3,14 +3,14 @@ import 'package:Autobound/models/models.dart';
 part 'auth_models.g.dart';
 
 @JsonSerializable()
-class LoginForm extends ToJson {
+class LoginForm implements ToJson {
   String email;
   String password;
 
   LoginForm({required this.email, required this.password});
 
   @override
-  toJson() => _$LoginFormToJson(this);
+  DynamicMap toJson() => _$LoginFormToJson(this);
 }
 
 @JsonSerializable()

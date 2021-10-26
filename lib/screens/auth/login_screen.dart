@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
 import 'package:Autobound/models/models.dart';
 import 'package:Autobound/services/services.dart';
 import 'package:Autobound/styles/colors.dart';
 import 'package:Autobound/widgets/app_form_item.dart';
+import 'package:dio/dio.dart';
 import 'package:email_validator/email_validator.dart';
-
-import 'package:Autobound/screens/suggested_campaigns/suggested_campaigns_screen.dart';
-
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -74,8 +71,25 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           _loading = true;
         });
-        final a = await http.post('auth/login', body: _loginForm.toJson());
-        Navigator.of(context).pushReplacementNamed(SuggestedCampaignsScreen.routeName);
+        final res = await httpService.post('/auth/login', data: _loginForm.toJson());
+      }
+      catch (_) {
+        Navigator.pop(context);
+        showCupertinoDialog(
+          context: context,
+          builder: (BuildContext context) => CupertinoAlertDialog(
+            title: const Text('Login Failed'),
+            content: const Text('Incorrect email or password.'),
+            actions: <CupertinoDialogAction>[
+              CupertinoDialogAction(
+                child: const Text('Try Again'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
       }
       finally {
         setState(() {
@@ -125,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           key: _emailFieldKey,
                           enabled: !_loading,
                           focusNode: _emailFocusNode,
-                          initialValue: 'dev@dev.dev',
+                          initialValue: 'dev21@dev.dev',
                           keyboardType: TextInputType.emailAddress,
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                           placeholder: 'Enter Your Email',

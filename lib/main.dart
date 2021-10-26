@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:flutter/rendering.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +27,7 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+    return GetCupertinoApp(
       debugShowCheckedModeBanner: false,
       theme: CupertinoThemeData(
           primaryColor: AppColors.primary,

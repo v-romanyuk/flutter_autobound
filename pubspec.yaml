@@ -36,8 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_platform_widgets: ^1.9.5
   email_validator: ^2.0.1
-  http: ^0.13.4
   json_annotation: ^4.3.0
+  dio: ^4.0.1
+  get: ^4.3.8
 
 dev_dependencies:
   build_runner: ^2.1.4
