@@ -1,5 +1,6 @@
 import 'package:Autobound/models/models.dart';
 import 'package:Autobound/providers.dart';
+import 'package:Autobound/screens/auth/widgets/contact_sales.dart';
 import 'package:Autobound/screens/suggested_campaigns/suggested_campaigns_screen.dart';
 import 'package:Autobound/styles/colors.dart';
 import 'package:Autobound/widgets/app_form_item.dart';
@@ -206,29 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ]),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Don\'t have an account?',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.primary))),
-                      child: CupertinoButton(
-                          minSize: 0,
-                          padding: EdgeInsets.zero,
-                          child: const Text(
-                            'Contact sales',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          onPressed: () => {}),
-                    ),
-                  ],
-                ),
+                const ContactSale()
               ],
             ),
           ),
