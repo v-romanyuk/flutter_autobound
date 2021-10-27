@@ -1,5 +1,8 @@
 import 'package:Autobound/screens/auth/login_screen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+
+import 'package:Autobound/providers.dart';
 
 class SuggestedCampaignsScreen extends StatefulWidget {
   const SuggestedCampaignsScreen({Key? key}) : super(key: key);
@@ -20,7 +23,8 @@ class _SuggestedCampaignsScreenState extends State<SuggestedCampaignsScreen> {
         child: CupertinoButton(
           child: const Text('logout'),
           onPressed: () {
-            Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routeName, (Route<dynamic> route) => false);
+            context.read<AuthProvider>().logout();
+            Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
           },
         ),
       ),

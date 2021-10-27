@@ -1,11 +1,13 @@
 import 'package:Autobound/models/models.dart';
-import 'package:Autobound/services/services.dart';
+import 'package:Autobound/providers.dart';
+import 'package:Autobound/screens/suggested_campaigns/suggested_campaigns_screen.dart';
 import 'package:Autobound/styles/colors.dart';
 import 'package:Autobound/widgets/app_form_item.dart';
 import 'package:dio/dio.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -68,12 +70,11 @@ class _LoginScreenState extends State<LoginScreen> {
       _loginFormRef.currentState?.save();
 
       try {
-        setState(() {
-          _loading = true;
-        });
-        final res = await httpService.post('/auth/login', data: _loginForm.toJson());
-      }
-      catch (_) {
+        setState(() { _loading = true;});
+
+        await context.read<AuthProvider>().login(_loginForm);
+        Navigator.of(context).pushReplacementNamed(SuggestedCampaignsScreen.routeName);
+      } on DioError catch (err) {
         Navigator.pop(context);
         showCupertinoDialog(
           context: context,
@@ -90,11 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         );
-      }
-      finally {
-        setState(() {
-          _loading = false;
-        });
+      } finally {
+        setState(() {_loading = false;});
       }
     }
   }
@@ -139,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           key: _emailFieldKey,
                           enabled: !_loading,
                           focusNode: _emailFocusNode,
-                          initialValue: 'dev21@dev.dev',
+                          initialValue: 'dev@dev.dev',
                           keyboardType: TextInputType.emailAddress,
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                           placeholder: 'Enter Your Email',

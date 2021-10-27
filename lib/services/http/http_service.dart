@@ -1,12 +1,14 @@
 import 'package:Autobound/models/general_models.dart';
+import 'package:Autobound/providers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:get/get.dart' as get_instance;
 
 class HttpInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    print('REQUEST[${options.method}] => PATH: ${options.path}');
+    options.headers['token'] = Provider.of<AuthProvider>(get_instance.Get.context!, listen: false).token;
     return super.onRequest(options, handler);
   }
 

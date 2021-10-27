@@ -19,11 +19,11 @@ Map<String, dynamic> _$LoginFormToJson(LoginForm instance) => <String, dynamic>{
 LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>
     LoginResponse(
       token: json['token'] as String,
-      status: json['status'] as String,
+      success: json['success'] as bool
     );
 
 Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
     <String, dynamic>{
       'token': instance.token,
-      'status': instance.status,
+      'success': instance.success
     };

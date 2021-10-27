@@ -16,11 +16,11 @@ class LoginForm implements ToJson {
 @JsonSerializable()
 class LoginResponse {
   final String token;
-  final String status;
+  final bool success;
 
   LoginResponse({
     required this.token,
-    required this.status
+    required this.success
   });
 
   factory LoginResponse.fromJson(DynamicMap json) => _$LoginResponseFromJson(json);
