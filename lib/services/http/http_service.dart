@@ -5,10 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart' as get_instance;
 
-class HttpInterceptor extends Interceptor {
+class HttpInterceptor extends Interceptor  {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.headers['token'] = Provider.of<AuthProvider>(get_instance.Get.context!, listen: false).token;
+    options.headers['token'] = get_instance.Get.context!.read<AuthProvider>().token;
     return super.onRequest(options, handler);
   }
 
