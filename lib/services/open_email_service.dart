@@ -10,13 +10,13 @@ import 'package:url_launcher/url_launcher.dart';
 /// Launch Schemes for supported apps:
 const String _LAUNCH_SCHEME_APPLE_MAIL = 'message://';
 const String _LAUNCH_SCHEME_GMAIL = 'googlegmail://';
-const String _LAUNCH_SCHEME_DISPATCH = 'x-dispatch://';
-const String _LAUNCH_SCHEME_SPARK = 'readdle-spark://';
-const String _LAUNCH_SCHEME_AIRMAIL = 'airmail://';
-const String _LAUNCH_SCHEME_OUTLOOK = 'ms-outlook://';
-const String _LAUNCH_SCHEME_YAHOO = 'ymail://';
-const String _LAUNCH_SCHEME_FASTMAIL = 'fastmail://';
-const String _LAUNCH_SCHEME_SUPERHUMAN = 'superhuman://';
+// const String _LAUNCH_SCHEME_DISPATCH = 'x-dispatch://';
+// const String _LAUNCH_SCHEME_SPARK = 'readdle-spark://';
+// const String _LAUNCH_SCHEME_AIRMAIL = 'airmail://';
+// const String _LAUNCH_SCHEME_OUTLOOK = 'ms-outlook://';
+// const String _LAUNCH_SCHEME_YAHOO = 'ymail://';
+// const String _LAUNCH_SCHEME_FASTMAIL = 'fastmail://';
+// const String _LAUNCH_SCHEME_SUPERHUMAN = 'superhuman://';
 
 /// Provides ability to query device for installed email apps and open those
 /// apps
@@ -47,55 +47,55 @@ class OpenMailApp {
         base: _LAUNCH_SCHEME_GMAIL + '/co',
       ),
     ),
-    MailApp(
-      name: 'Dispatch',
-      iosLaunchScheme: _LAUNCH_SCHEME_DISPATCH,
-      composeData: ComposeData(
-        base: _LAUNCH_SCHEME_DISPATCH + '/compose',
-      ),
-    ),
-    MailApp(
-      name: 'Spark',
-      iosLaunchScheme: _LAUNCH_SCHEME_SPARK,
-      composeData: ComposeData(
-        base: _LAUNCH_SCHEME_SPARK + 'compose',
-        to: 'recipient',
-      ),
-    ),
-    MailApp(
-      name: 'Airmail',
-      iosLaunchScheme: _LAUNCH_SCHEME_AIRMAIL,
-      composeData: ComposeData(
-        base: _LAUNCH_SCHEME_AIRMAIL + 'compose',
-        body: 'plainBody',
-      ),
-    ),
-    MailApp(
-      name: 'Outlook',
-      iosLaunchScheme: _LAUNCH_SCHEME_OUTLOOK,
-      composeData: ComposeData(
-        base: _LAUNCH_SCHEME_OUTLOOK + 'compose',
-      ),
-    ),
-    MailApp(
-      name: 'Yahoo',
-      iosLaunchScheme: _LAUNCH_SCHEME_YAHOO,
-      composeData: ComposeData(
-        base: _LAUNCH_SCHEME_YAHOO + 'mail/compose',
-      ),
-    ),
-    MailApp(
-      name: 'Fastmail',
-      iosLaunchScheme: _LAUNCH_SCHEME_FASTMAIL,
-      composeData: ComposeData(
-        base: _LAUNCH_SCHEME_FASTMAIL + 'mail/compose',
-      ),
-    ),
-    MailApp(
-      name: 'Superhuman',
-      iosLaunchScheme: _LAUNCH_SCHEME_SUPERHUMAN,
-      composeData: ComposeData(),
-    ),
+    // MailApp(
+    //   name: 'Dispatch',
+    //   iosLaunchScheme: _LAUNCH_SCHEME_DISPATCH,
+    //   composeData: ComposeData(
+    //     base: _LAUNCH_SCHEME_DISPATCH + '/compose',
+    //   ),
+    // ),
+    // MailApp(
+    //   name: 'Spark',
+    //   iosLaunchScheme: _LAUNCH_SCHEME_SPARK,
+    //   composeData: ComposeData(
+    //     base: _LAUNCH_SCHEME_SPARK + 'compose',
+    //     to: 'recipient',
+    //   ),
+    // ),
+    // MailApp(
+    //   name: 'Airmail',
+    //   iosLaunchScheme: _LAUNCH_SCHEME_AIRMAIL,
+    //   composeData: ComposeData(
+    //     base: _LAUNCH_SCHEME_AIRMAIL + 'compose',
+    //     body: 'plainBody',
+    //   ),
+    // ),
+    // MailApp(
+    //   name: 'Outlook',
+    //   iosLaunchScheme: _LAUNCH_SCHEME_OUTLOOK,
+    //   composeData: ComposeData(
+    //     base: _LAUNCH_SCHEME_OUTLOOK + 'compose',
+    //   ),
+    // ),
+    // MailApp(
+    //   name: 'Yahoo',
+    //   iosLaunchScheme: _LAUNCH_SCHEME_YAHOO,
+    //   composeData: ComposeData(
+    //     base: _LAUNCH_SCHEME_YAHOO + 'mail/compose',
+    //   ),
+    // ),
+    // MailApp(
+    //   name: 'Fastmail',
+    //   iosLaunchScheme: _LAUNCH_SCHEME_FASTMAIL,
+    //   composeData: ComposeData(
+    //     base: _LAUNCH_SCHEME_FASTMAIL + 'mail/compose',
+    //   ),
+    // ),
+    // MailApp(
+    //   name: 'Superhuman',
+    //   iosLaunchScheme: _LAUNCH_SCHEME_SUPERHUMAN,
+    //   composeData: ComposeData(),
+    // ),
   ];
 
   static Future<OpenMailAppResult> openMailApp({
