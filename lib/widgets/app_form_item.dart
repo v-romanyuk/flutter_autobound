@@ -2,11 +2,19 @@ import 'package:Autobound/styles/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppFormItem extends FormField<String> {
+  // final Widget? prefix;
+  final TextEditingController? controller;
+  final String? label;
+  final IconData? labelIcon;
+
   AppFormItem({
     Key? key,
     this.controller,
+    this.label,
+    this.labelIcon,
     String? initialValue,
     FocusNode? focusNode,
     TextInputType? keyboardType,
@@ -46,56 +54,81 @@ class AppFormItem extends FormField<String> {
             return Container(
               margin: const EdgeInsets.only(bottom: 10),
               height: 60,
-              child: Stack(
+              child: Stack(children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CupertinoTextField(
-                      controller: state._effectiveController,
-                      focusNode: focusNode,
-                      keyboardType: keyboardType,
-                      textInputAction: textInputAction,
-                      obscureText: obscureText,
-                      clearButtonMode: OverlayVisibilityMode.editing,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: field.errorText != null ? AppColors.danger : AppColors.border),
-                          borderRadius: BorderRadius.circular(5)
-                      ),
-                      padding: padding!,
-                      onChanged: onChangedHandler,
-                      onTap: onTap,
-                      onEditingComplete: onEditingComplete,
-                      onSubmitted: onFieldSubmitted,
-                      enabled: enabled,
-                      placeholder: placeholder,
-                      placeholderStyle: const TextStyle(color: AppColors.greyDark),
-                    ),
-                      Positioned(
-                        left: 2,
-                        bottom: 0,
-                        child: Align(
-                          alignment: AlignmentDirectional.centerStart,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 5),
-                            child: AnimatedOpacity(
-                              duration: const Duration(seconds: 5),
-                              opacity: 1,
-                              child: Text(
-                                field.errorText ?? '',
-                                style: const TextStyle(
-                                  color: CupertinoColors.destructiveRed,
-                                  fontSize: 13
+                    if (label != null && label.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (labelIcon != null)
+                              Container(
+                                margin: const EdgeInsets.only(right: 5, bottom: 2),
+                                child: FaIcon(
+                                  labelIcon,
+                                  size: 12,
+                                  color: AppColors.textSecondary,
                                 ),
                               ),
+                            Text(
+                              label,
+                              style: const TextStyle(
+                                color: AppColors.textSecondary,
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                  ]),
+                    Flexible(
+                      flex: 1,
+                      child: CupertinoTextField(
+                        controller: state._effectiveController,
+                        focusNode: focusNode,
+                        keyboardType: keyboardType,
+                        textInputAction: textInputAction,
+                        obscureText: obscureText,
+                        clearButtonMode: OverlayVisibilityMode.editing,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: field.errorText != null ? AppColors.danger : AppColors.border),
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: padding!,
+                        onChanged: onChangedHandler,
+                        onTap: onTap,
+                        onEditingComplete: onEditingComplete,
+                        onSubmitted: onFieldSubmitted,
+                        enabled: enabled,
+                        placeholder: placeholder,
+                        placeholderStyle: const TextStyle(color: AppColors.greyDark),
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  left: 2,
+                  bottom: 0,
+                  child: Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: AnimatedOpacity(
+                        duration: const Duration(seconds: 5),
+                        opacity: 1,
+                        child: Text(
+                          field.errorText ?? '',
+                          style: const TextStyle(color: CupertinoColors.destructiveRed, fontSize: 13),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
             );
           },
         );
-
-  // final Widget? prefix;
-  final TextEditingController? controller;
 
   @override
   FormFieldState<String> createState() => _AppFormItemState();

@@ -8,6 +8,7 @@ import 'package:dio/dio.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -71,11 +72,13 @@ class _LoginScreenState extends State<LoginScreen> {
       _loginFormRef.currentState?.save();
 
       try {
-        setState(() { _loading = true;});
+        setState(() {
+          _loading = true;
+        });
 
         await context.read<AuthProvider>().login(_loginForm);
         Navigator.of(context).pushReplacementNamed(SuggestedCampaignsScreen.routeName);
-      } on DioError catch (err) {
+      } on DioError catch (_) {
         Navigator.pop(context);
         showCupertinoDialog(
           context: context,
@@ -93,7 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } finally {
-        setState(() {_loading = false;});
+        setState(() {
+          _loading = false;
+        });
       }
     }
   }
@@ -103,111 +108,130 @@ class _LoginScreenState extends State<LoginScreen> {
     return CupertinoPageScaffold(
       child: SingleChildScrollView(
         controller: _scrollController,
-        child: SizedBox(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("lib/assets/images/bg.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
           height: MediaQuery.of(context).size.height,
           child: Padding(
-            padding: const EdgeInsets.only(left: 14, right: 15, top: 90, bottom: 50),
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 90, bottom: 50),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
                   'lib/assets/images/logo.png',
-                  width: 180,
-                  height: 40,
+                  width: 260,
+                  height: 52,
                 ),
-                Column(children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      'Welcome back!',
-                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
-                    ),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 35, horizontal: 30),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 50),
-                    child: Text(
-                      'Please login with your account.',
-                      style: TextStyle(fontSize: 18),
+                  child: Column(children: [
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 30),
+                      child: Text(
+                        'Login to Autobound',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                      ),
                     ),
-                  ),
-                  Form(
-                    key: _loginFormRef,
-                    child: Column(
-                      children: [
-                        AppFormItem(
-                          key: _emailFieldKey,
-                          enabled: !_loading,
-                          focusNode: _emailFocusNode,
-                          initialValue: 'dev@dev.dev',
-                          keyboardType: TextInputType.emailAddress,
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                          placeholder: 'Enter Your Email',
-                          textInputAction: TextInputAction.next,
-                          validator: (value) {
-                            if (value!.isNotEmpty) {
-                              return EmailValidator.validate(value) ? null : 'Please enter a valid email';
-                            } else {
-                              return 'Email is required';
-                            }
-                          },
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(_passwordFocusNode);
-                          },
-                          onSaved: (value) {
-                            _loginForm.email = value ?? '';
-                          },
-                        ),
-                        AppFormItem(
-                          key: _passwordFieldKey,
-                          enabled: !_loading,
-                          focusNode: _passwordFocusNode,
-                          initialValue: 'dev@dev.dev',
-                          placeholder: 'Enter Your Password',
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: true,
-                          textInputAction: TextInputAction.go,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Password is required';
-                            } else if (value.length <= 8) {
-                              return 'Password is too short';
-                            } else {
-                              return null;
-                            }
-                          },
-                          onFieldSubmitted: (_) => _login(),
-                          onSaved: (value) {
-                            _loginForm.password = value ?? '';
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 36,
-                    child: CupertinoButton.filled(
-                      disabledColor: AppColors.primary,
-                      padding: EdgeInsets.zero,
-                      borderRadius: BorderRadius.circular(5),
-                      child: _loading
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : const Text(
-                              'Login',
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    Form(
+                      key: _loginFormRef,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: AppFormItem(
+                              key: _emailFieldKey,
+                              label: 'Email',
+                              labelIcon: FontAwesomeIcons.solidEnvelope,
+                              enabled: !_loading,
+                              focusNode: _emailFocusNode,
+                              initialValue: 'dev@dev.dev',
+                              keyboardType: TextInputType.emailAddress,
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                              placeholder: 'Enter Your Email',
+                              textInputAction: TextInputAction.next,
+                              validator: (value) {
+                                if (value!.isNotEmpty) {
+                                  return EmailValidator.validate(value) ? null : 'Please enter a valid email';
+                                } else {
+                                  return 'Email is required';
+                                }
+                              },
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context).requestFocus(_passwordFocusNode);
+                              },
+                              onSaved: (value) {
+                                _loginForm.email = value ?? '';
+                              },
                             ),
-                      onPressed: _loading ? null : _login,
+                          ),
+                          AppFormItem(
+                            key: _passwordFieldKey,
+                            label: 'Password',
+                            labelIcon: FontAwesomeIcons.lock,
+                            enabled: !_loading,
+                            focusNode: _passwordFocusNode,
+                            initialValue: 'dev@dev.dev',
+                            placeholder: 'Enter Your Password',
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: true,
+                            textInputAction: TextInputAction.go,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Password is required';
+                              } else if (value.length <= 8) {
+                                return 'Password is too short';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onFieldSubmitted: (_) => _login(),
+                            onSaved: (value) {
+                              _loginForm.password = value ?? '';
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ]),
-                const ContactSale()
+                    Container(
+                      width: double.infinity,
+                      height: 36,
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      child: CupertinoButton.filled(
+                        disabledColor: AppColors.primary,
+                        padding: EdgeInsets.zero,
+                        borderRadius: BorderRadius.circular(5),
+                        child: _loading
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text(
+                                'Login',
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
+                        onPressed: _loading ? null : _login,
+                      ),
+                    ),
+
+                    const ContactSale()
+                  ]),
+                ),
+                Text('© 2021 Autobound.ai', style: TextStyle(
+                  color: AppColors.white.withOpacity(0.65),
+                  fontSize: 12
+                ))
               ],
             ),
           ),

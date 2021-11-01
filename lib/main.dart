@@ -29,6 +29,7 @@ class Main extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => AuthProvider()),
+          ChangeNotifierProvider(create: (_) => SuggestedCampaignsProvider()),
         ],
         child: Consumer<AuthProvider>(
           builder: (ctx, authProvider, _) => GetCupertinoApp(
@@ -40,7 +41,7 @@ class Main extends StatelessWidget {
               barBackgroundColor: AppColors.white,
               textTheme: const CupertinoTextThemeData().copyWith(
                 textStyle: const TextStyle(
-                  fontFamily: 'Rubik',
+                  fontFamily: 'Roboto',
                   color: AppColors.textPrimary,
                 ),
               ),
@@ -48,7 +49,7 @@ class Main extends StatelessWidget {
             routes: {
               '/': (ctx) => const SplashScreen(),
               LoginScreen.routeName: (ctx) => const LoginScreen(),
-              SuggestedCampaignsScreen.routeName: (ctx) => const SuggestedCampaignsScreen(),
+              SuggestedCampaignsScreen.routeName: (ctx) => SuggestedCampaignsScreen(),
             },
           ),
         ));
