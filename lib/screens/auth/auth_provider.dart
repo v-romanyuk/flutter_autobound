@@ -7,6 +7,9 @@ class AuthProvider with ChangeNotifier {
   String? _token;
   String? get token { return _token; }
 
+  UserProfile? _userProfile;
+  UserProfile? get userProfile { return _userProfile; }
+
   bool get isAuthenticated { return _token != null; }
 
   Future<String> login (LoginForm loginForm) async {
@@ -27,6 +30,13 @@ class AuthProvider with ChangeNotifier {
     _token = sharedPrefs.getString('Autobound_Token');
     notifyListeners();
     return true;
+  }
+
+  Future<UserProfile> getUserProfile () async {
+    final res = (await httpService.get('/userProfile')).data;
+    _userProfile = UserProfile.fromJson(res);
+    notifyListeners();
+    return Future.value(_userProfile);
   }
 
   void logout () async {

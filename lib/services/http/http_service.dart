@@ -8,26 +8,29 @@ import 'package:get/get.dart' as get_instance;
 class HttpInterceptor extends Interceptor  {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.headers['token'] = get_instance.Get.context!.read<AuthProvider>().token;
+    options.headers['auth'] = get_instance.Get.context!.read<AuthProvider>().token;
     return super.onRequest(options, handler);
   }
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    showCupertinoDialog(
-      context: get_instance.Get.context!,
-      builder: (BuildContext context) => CupertinoAlertDialog(
-        title: Text(err.response?.data['error']['message']),
-        actions: <CupertinoDialogAction>[
-          CupertinoDialogAction(
-            child: const Text('Try again'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-    );
+    if (err.response?.statusCode == 401) {
+      showCupertinoDialog(
+        context: get_instance.Get.context!,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: const Text('Session expired.'),
+          content: const Text('Please login again.'),
+          actions: <CupertinoDialogAction>[
+            CupertinoDialogAction(
+              child: const Text('Go to login screen again'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      );
+    }
     return super.onError(err, handler);
   }
 }

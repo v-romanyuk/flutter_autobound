@@ -15,29 +15,29 @@ class SuggestedCampaignsScreen extends StatefulWidget {
 class _SuggestedCampaignsScreenState extends State<SuggestedCampaignsScreen> {
   bool _loading = false;
 
-  void getSuggestedCampaigns () async {
-    try {
-      setState(() {
-        _loading = true;
-      });
-      await context.read<SuggestedCampaignsProvider>().getSuggestedCampaigns();
-    } finally {
+  void getSuggestedCampaigns() {
+    setState(() {
+      _loading = true;
+    });
+
+    context.read<SuggestedCampaignsProvider>().getSuggestedCampaigns().whenComplete(() {
       setState(() {
         _loading = false;
       });
-    }
+    });
   }
 
   @override
   void initState() {
-    // getSuggestedCampaigns();
-    // context.read<AuthProvider>().logout();
+    getSuggestedCampaigns();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final campaigns = context.watch<SuggestedCampaignsProvider>().campaigns;
+    final campaigns = context
+        .watch<SuggestedCampaignsProvider>()
+        .campaigns;
 
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
@@ -50,6 +50,7 @@ class _SuggestedCampaignsScreenState extends State<SuggestedCampaignsScreen> {
           final item = campaigns[index];
 
           return SuggestedCampaignCard(
+            suggestedCampaignTrigger: item,
             margin: EdgeInsets.only(top: index > 0 ? 15 : 0),
           );
         },

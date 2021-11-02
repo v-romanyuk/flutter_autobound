@@ -53,7 +53,7 @@ class AppFormItem extends FormField<String> {
 
             return Container(
               margin: const EdgeInsets.only(bottom: 10),
-              height: 60,
+              height: label != null && label.isNotEmpty ? 77 : 60,
               child: Stack(children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

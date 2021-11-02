@@ -79,7 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
         await context.read<AuthProvider>().login(_loginForm);
         Navigator.of(context).pushReplacementNamed(SuggestedCampaignsScreen.routeName);
       } on DioError catch (_) {
-        Navigator.pop(context);
         showCupertinoDialog(
           context: context,
           builder: (BuildContext context) => CupertinoAlertDialog(
@@ -144,33 +143,30 @@ class _LoginScreenState extends State<LoginScreen> {
                       key: _loginFormRef,
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: AppFormItem(
-                              key: _emailFieldKey,
-                              label: 'Email',
-                              labelIcon: FontAwesomeIcons.solidEnvelope,
-                              enabled: !_loading,
-                              focusNode: _emailFocusNode,
-                              initialValue: 'dev@dev.dev',
-                              keyboardType: TextInputType.emailAddress,
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                              placeholder: 'Enter Your Email',
-                              textInputAction: TextInputAction.next,
-                              validator: (value) {
-                                if (value!.isNotEmpty) {
-                                  return EmailValidator.validate(value) ? null : 'Please enter a valid email';
-                                } else {
-                                  return 'Email is required';
-                                }
-                              },
-                              onFieldSubmitted: (_) {
-                                FocusScope.of(context).requestFocus(_passwordFocusNode);
-                              },
-                              onSaved: (value) {
-                                _loginForm.email = value ?? '';
-                              },
-                            ),
+                          AppFormItem(
+                            key: _emailFieldKey,
+                            label: 'Email',
+                            labelIcon: FontAwesomeIcons.solidEnvelope,
+                            enabled: !_loading,
+                            focusNode: _emailFocusNode,
+                            initialValue: 'dev@dev.dev',
+                            keyboardType: TextInputType.emailAddress,
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                            placeholder: 'Enter Your Email',
+                            textInputAction: TextInputAction.next,
+                            validator: (value) {
+                              if (value!.isNotEmpty) {
+                                return EmailValidator.validate(value) ? null : 'Please enter a valid email';
+                              } else {
+                                return 'Email is required';
+                              }
+                            },
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(_passwordFocusNode);
+                            },
+                            onSaved: (value) {
+                              _loginForm.email = value ?? '';
+                            },
                           ),
                           AppFormItem(
                             key: _passwordFieldKey,
@@ -203,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       width: double.infinity,
                       height: 36,
-                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      margin: const EdgeInsets.only(bottom: 20),
                       child: CupertinoButton.filled(
                         disabledColor: AppColors.primary,
                         padding: EdgeInsets.zero,

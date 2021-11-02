@@ -1,5 +1,5 @@
 import 'package:Autobound/providers.dart';
-import 'package:Autobound/screens/splash_screen.dart';
+import 'package:Autobound/screens/session_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -47,7 +47,7 @@ class Main extends StatelessWidget {
               ),
             ),
             routes: {
-              '/': (ctx) => const SplashScreen(),
+              '/': (ctx) => const SessionScreen(),
               LoginScreen.routeName: (ctx) => const LoginScreen(),
               SuggestedCampaignsScreen.routeName: (ctx) => SuggestedCampaignsScreen(),
             },
