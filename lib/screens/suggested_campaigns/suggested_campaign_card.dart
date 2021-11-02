@@ -3,11 +3,7 @@ import 'package:Autobound/styles/colors.dart';
 import 'package:flutter/cupertino.dart';
 
 class SuggestedCampaignCard extends StatelessWidget {
-  const SuggestedCampaignCard({
-    Key? key,
-    this.margin,
-    required this.suggestedCampaignTrigger
-  }) : super(key: key);
+  const SuggestedCampaignCard({Key? key, this.margin, required this.suggestedCampaignTrigger}) : super(key: key);
 
   final EdgeInsets? margin;
   final SuggestedCampaignTrigger suggestedCampaignTrigger;
@@ -49,21 +45,35 @@ class SuggestedCampaignCard extends StatelessWidget {
             ],
           ),
           Container(
-            width: 66,
+            width: 67,
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
             decoration: const BoxDecoration(
+              color: AppColors.white,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               boxShadow: [
-                // 0px 25px 40px rgba(0, 0, 0, 0.03);
                 BoxShadow(
+            // 0px 30px 40px rgba(126, 126, 126, 0.1);
                   color: Color.fromRGBO(126, 126, 126, 0.1),
-                  blurRadius: 40,
-                  offset: Offset(0, 30), // changes position of shadow
+                  blurRadius: 30,
                 ),
               ],
             ),
-            child: Text(suggestedCampaignTrigger.score.toString(), style: TextStyle(
-              color: AppColors.navy.withOpacity(0.4)
-            )),
+            child: Row(
+              children: [
+                Container(
+                  height: 12,
+                  margin: const EdgeInsets.only(right: 7),
+                  child: Image.asset('lib/assets/images/app-icon.png'),
+                ),
+                Text(
+                  suggestedCampaignTrigger.score.toDouble().toString(),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.navy.withOpacity(0.4),
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
